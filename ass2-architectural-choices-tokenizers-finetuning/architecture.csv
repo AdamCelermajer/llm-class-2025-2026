@@ -1,0 +1,1 @@
+model_id,hidden_size,num_layers,num_attention_heads,num_kv_heads,mlp_size,activation,norm_type,position_encoding,context_length,vocab_size,moe_details
