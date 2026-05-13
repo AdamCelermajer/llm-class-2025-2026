@@ -1,0 +1,1 @@
+model_id,tokenizer_type,vocab_size,special_tokens,word_boundary_strategy,byte_fallback_or_byte_level,avg_tokens_per_english_word,avg_tokens_per_hebrew_word
