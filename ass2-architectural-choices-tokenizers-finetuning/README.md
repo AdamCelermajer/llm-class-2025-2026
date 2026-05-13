@@ -1,10 +1,5 @@
 # Assignment 2: Architectural Choices, Tokenizers, Decoding, and Fine Tuning
 
-## Files
-
-- [`architecture.csv`](architecture.csv): template for the architecture comparison table.
-- [`tokenizers.csv`](tokenizers.csv): template for the tokenizer comparison table.
-
 ## Architectural Choices
 
 Huggingface is s software company that hosts a repository of models, both LLMs and others. These are models you can download, inspect, run and finetune.
@@ -134,7 +129,13 @@ Run the English queries from above (or others) using the constrained decoder. Wh
 2. List 10 English language queries, and for each of them, for each model: (a) the model response with unconstrained decoding; (b) the model response with constrained decoding. 
 3. A brief discussion of the results. Is the Hebrew text meaningful? does it relate to the question? does it differ between the models? are some languages favored over others?
 
-Submit the decoding results in a file named `decoding_outputs.jsonl`. Each line should include: prompt, model, unconstrained output, constrained output, and the decoding parameters.
+Submit the decoding results in a file named `decoding_outputs.jsonl`. Each line should include: prompt, model, unconstrained output, and constrained output.
+
+Each line should be a separate JSON object, for example:
+
+```json
+{"prompt":"Explain why leaves are green.","model":"Qwen/Qwen2.5-7B-Instruct","unconstrained_output":"...","constrained_output":"..."}
+```
 
 The report should contain the explanation and discussion: how you implemented constrained decoding, and what you conclude from the outputs. The JSON and JSONL files are for the raw token lists and generation outputs.
 
@@ -191,6 +192,12 @@ The training data must not include any of these 20 evaluation inputs.
 In the report, include the outputs on all 20 inputs and explain what changed after fine-tuning. You may also include quantitative summaries, such as the percent of answers that are in Hebrew and a manual relevance score.
 
 Submit these results in a file named `eval_outputs.jsonl`. Each line should include: prompt, base-model output, fine-tuned-model output, and short notes if relevant.
+
+Each line should be a separate JSON object, for example:
+
+```json
+{"prompt":"Explain why the sky looks blue during the day.","base_output":"...","finetuned_output":"...","notes":"..."}
+```
 
 The report should contain the explanation and conclusions: how you created the data, how you fine-tuned the model, what evaluation you ran, and whether you think the fine-tuning worked. `eval_outputs.jsonl` is for the raw before/after generations.
 
