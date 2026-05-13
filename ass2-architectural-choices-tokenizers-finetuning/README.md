@@ -1,4 +1,9 @@
-# Assignment 2 - architectural choices, decoding and fine tuning
+# Assignment 2: Architectural Choices, Tokenizers, Decoding, and Fine Tuning
+
+## Files
+
+- [`architecture.csv`](architecture.csv): template for the architecture comparison table.
+- [`tokenizers.csv`](tokenizers.csv): template for the tokenizer comparison table.
 
 ## Architectural Choices
 
@@ -7,16 +12,16 @@ Huggingface is s software company that hosts a repository of models, both LLMs a
 In this part of the assignment you will explore some recent LLMs from the huggingface model library, and inspect their architectural choices.
 
 We will be working with the following models:
-1. `meta-llama/Llama-3.1-8B-Instruct`
-2. `mistralai/Mistral-7B-Instruct-v0.3`
-3. `Qwen/Qwen2.5-7B-Instruct`
-4. `allenai/OLMo-2-1124-7B-Instruct`
-5. `ibm-granite/granite-3.3-8b-instruct`
-6. `deepseek-ai/DeepSeek-V3`
-7. `HuggingFaceTB/SmolLM2-1.7B-Instruct`
-8. `microsoft/Phi-4-mini-instruct`
-9. `tiiuae/Falcon3-7B-Instruct`
-10. `dicta-il/dictalm2.0-instruct`
+1. [`meta-llama/Llama-3.1-8B-Instruct`](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
+2. [`mistralai/Mistral-7B-Instruct-v0.3`](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3)
+3. [`Qwen/Qwen2.5-7B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct)
+4. [`allenai/OLMo-2-1124-7B-Instruct`](https://huggingface.co/allenai/OLMo-2-1124-7B-Instruct)
+5. [`ibm-granite/granite-3.3-8b-instruct`](https://huggingface.co/ibm-granite/granite-3.3-8b-instruct)
+6. [`deepseek-ai/DeepSeek-V3`](https://huggingface.co/deepseek-ai/DeepSeek-V3)
+7. [`HuggingFaceTB/SmolLM2-1.7B-Instruct`](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct)
+8. [`microsoft/Phi-4-mini-instruct`](https://huggingface.co/microsoft/Phi-4-mini-instruct)
+9. [`tiiuae/Falcon3-7B-Instruct`](https://huggingface.co/tiiuae/Falcon3-7B-Instruct)
+10. [`dicta-il/dictalm2.0-instruct`](https://huggingface.co/dicta-il/dictalm2.0-instruct)
 
 ### Extract architectural information
 
@@ -39,7 +44,7 @@ In the report, include:
 3. A readable summary of the main architectural differences between the models.
 4. The reflection and analysis requested below.
 
-In addition to the report, submit `architecture.csv`. This file is for the structured model-by-model facts, not for long explanations. It should contain one row per model and include, when available, the following columns:
+In addition to the report, submit [`architecture.csv`](architecture.csv). This file is for the structured model-by-model facts, not for long explanations. It should contain one row per model and include, when available, the following columns:
 
 ```text
 model_id,hidden_size,num_layers,num_attention_heads,num_kv_heads,mlp_size,activation,norm_type,position_encoding,context_length,vocab_size,moe_details
@@ -78,7 +83,7 @@ In the report, include:
 5. A discussion of the average-tokens-per-word numbers and what does it mean.
 
 
-In addition to the report, submit `tokenizers.csv`. This file is for the structured tokenizer facts. It should contain one row per model and include, when available, the following columns:
+In addition to the report, submit [`tokenizers.csv`](tokenizers.csv). This file is for the structured tokenizer facts. It should contain one row per model and include, when available, the following columns:
 
 ```text
 model_id,tokenizer_type,vocab_size,special_tokens,word_boundary_strategy,byte_fallback_or_byte_level,avg_tokens_per_english_word,avg_tokens_per_hebrew_word
@@ -95,7 +100,7 @@ How many of the remaining 7 tokenizers agree with each of the 3 tokenizers on th
 
 ### Get basic inference working
 
-Load the `Qwen/Qwen2.5-7B-Instruct` model and the `mistralai/Mistral-7B-Instruct-v0.3` model, and see that you manage to query them with prompts containing English questions and obtain reasonable answers.
+Load the [`Qwen/Qwen2.5-7B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct) model and the [`mistralai/Mistral-7B-Instruct-v0.3`](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) model, and see that you manage to query them with prompts containing English questions and obtain reasonable answers.
 
 These are instruction-tuned models ("instruct" models). This means they are not only trained to continue text, but were further trained to respond to user instructions, usually in a chat-like format with user and assistant turns. When running them, make sure you use the tokenizer's chat template or the prompting format recommended by the model card; otherwise the model may behave worse than expected.
 
@@ -137,7 +142,7 @@ The report should contain the explanation and discussion: how you implemented co
 
 In the previous section, you attempted to adapt a model to answer in Hebrew on English queries by intervening with the decoding procedure. Now we will do it with fine tuning.
 
-You will be working with the `Qwen/Qwen2.5-1.5B-Instruct` model. This is a relatively small model, that should be easy to load and fine-tune also on a relatively weak GPU, like the ones available in Google Colab. It also has some basic knowledge of Hebrew, as you can see by prompting it in Hebrew and observing its answers.
+You will be working with the [`Qwen/Qwen2.5-1.5B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) model. This is a relatively small model, that should be easy to load and fine-tune also on a relatively weak GPU, like the ones available in Google Colab. It also has some basic knowledge of Hebrew, as you can see by prompting it in Hebrew and observing its answers.
 
 Your job is to fine-tune the model so that it answers in Hebrew also on English queries. Ideally, the answers should be relevant to the query prompt (that is, it is easy to tune the model to always return a fixed Hebrew sentence like "לא יודע" but this is not a valid solution. The model should at least appear to be attempt to answer the prompt question/instruction, even if it will get it wrong).
 
@@ -189,7 +194,7 @@ Submit these results in a file named `eval_outputs.jsonl`. Each line should incl
 
 The report should contain the explanation and conclusions: how you created the data, how you fine-tuned the model, what evaluation you ran, and whether you think the fine-tuning worked. `eval_outputs.jsonl` is for the raw before/after generations.
 
-# What to submit?
+## What to Submit
 
 A report in PDF format. The report should cover answers and discussions of all the sections and subsections mentioned above, and it should be easy to navigate and locate the individual sections and their answers. The report should also contain your names and ID numbers in a prominent font at the top. 
 
@@ -197,8 +202,8 @@ Large part of your grade will be based on the report quality and clarity: the re
 
 In addition to the report, submit:
 
-1. `architecture.csv`
-2. `tokenizers.csv`
+1. [`architecture.csv`](architecture.csv)
+2. [`tokenizers.csv`](tokenizers.csv)
 3. `hebrew_allowed_tokens_qwen.json`
 4. `hebrew_allowed_tokens_mistral.json`
 5. `decoding_outputs.jsonl`
